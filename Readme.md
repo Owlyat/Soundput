@@ -1,5 +1,5 @@
 ### Config
-Windows : `%Userprofile%/.config/Soundput/config.toml` (Copy Soundput directory to this directory)
+Windows : `%Userprofile%/.config/Soundput/config.toml` (Copy Soundput folder to this directory)
 
 ## Installation
 Build from cargo.
