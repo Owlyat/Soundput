@@ -1,5 +1,6 @@
 use std::{
     fs::{self, File},
+    hash::Hash,
     io::BufReader,
     path::Path,
 };
@@ -232,9 +233,15 @@ fn keyboard_bindings(
     keyboard_config: &KeyboardConfig,
     vk: winput::Vk,
     action: Action,
+    last_action: &mut Vec<(winput::Vk, Action)>,
 ) -> Option<(OutputStream, Sink)> {
+    last_action.pop_if(|(_, act)| *act == Action::Release);
+    if last_action.contains(&(vk, action)) {
+        return None;
+    }
+    // Send Some if Valid Key has been pressed
     let mut opt_handle = None;
-    println!("vk: {vk:?}");
+
     (winput::Vk::A == vk && Action::Press == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.a));
     });
@@ -889,6 +896,8 @@ fn keyboard_bindings(
     (winput::Vk::Numlock == vk && Action::Release == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.numlock_up));
     });
+    last_action.pop_if(|(_, act)| *act == Action::Press);
+    last_action.push((vk, action));
     opt_handle
 }
 
@@ -925,6 +934,7 @@ fn main() {
     let keyboard_config = get_default_config();
     let receiver = message_loop::start().expect("Could not start message loop");
     let mut opt_handle: Vec<Option<(OutputStream, Sink)>> = Vec::default();
+    let mut last_action = Vec::default();
     loop {
         match receiver.try_next_event() {
             Some(message_loop::Event::Keyboard {
@@ -932,7 +942,12 @@ fn main() {
                 scan_code: _,
                 action,
             }) => {
-                opt_handle.push(keyboard_bindings(&keyboard_config, vk, action));
+                opt_handle.push(keyboard_bindings(
+                    &keyboard_config,
+                    vk,
+                    action,
+                    &mut last_action,
+                ));
                 opt_handle.iter_mut().for_each(|opt_handle| {
                     if let Some((_, sink)) = opt_handle {
                         if sink.empty() {
