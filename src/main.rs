@@ -150,6 +150,8 @@ struct KeyboardConfig {
     home_up: Box<Path>,
     end: Box<Path>,
     end_up: Box<Path>,
+    key_0: Box<Path>,
+    key_0_up: Box<Path>,
     key_1: Box<Path>,
     key_1_up: Box<Path>,
     key_2: Box<Path>,
@@ -168,10 +170,62 @@ struct KeyboardConfig {
     key_8_up: Box<Path>,
     key_9: Box<Path>,
     key_9_up: Box<Path>,
+    numpad_0: Box<Path>,
+    numpad_0_up: Box<Path>,
+    numpad_1: Box<Path>,
+    numpad_1_up: Box<Path>,
+    numpad_2: Box<Path>,
+    numpad_2_up: Box<Path>,
+    numpad_3: Box<Path>,
+    numpad_3_up: Box<Path>,
+    numpad_4: Box<Path>,
+    numpad_4_up: Box<Path>,
+    numpad_5: Box<Path>,
+    numpad_5_up: Box<Path>,
+    numpad_6: Box<Path>,
+    numpad_6_up: Box<Path>,
+    numpad_7: Box<Path>,
+    numpad_7_up: Box<Path>,
+    numpad_8: Box<Path>,
+    numpad_8_up: Box<Path>,
+    numpad_9: Box<Path>,
+    numpad_9_up: Box<Path>,
     right_win: Box<Path>,
     right_win_up: Box<Path>,
     left_win: Box<Path>,
     left_win_up: Box<Path>,
+    period: Box<Path>,
+    period_up: Box<Path>,
+    oem_1: Box<Path>,
+    oem_1_up: Box<Path>,
+    oem_2: Box<Path>,
+    oem_2_up: Box<Path>,
+    oem_3: Box<Path>,
+    oem_3_up: Box<Path>,
+    oem_4: Box<Path>,
+    oem_4_up: Box<Path>,
+    oem_5: Box<Path>,
+    oem_5_up: Box<Path>,
+    oem_6: Box<Path>,
+    oem_6_up: Box<Path>,
+    oem_7: Box<Path>,
+    oem_7_up: Box<Path>,
+    oem_8: Box<Path>,
+    oem_8_up: Box<Path>,
+    oem_102: Box<Path>,
+    oem_102_up: Box<Path>,
+    plus: Box<Path>,
+    plus_up: Box<Path>,
+    minus: Box<Path>,
+    minus_up: Box<Path>,
+    multiply: Box<Path>,
+    multiply_up: Box<Path>,
+    subtract: Box<Path>,
+    subtract_up: Box<Path>,
+    capslock: Box<Path>,
+    capslock_up: Box<Path>,
+    numlock: Box<Path>,
+    numlock_up: Box<Path>,
 }
 
 fn keyboard_bindings(
@@ -180,6 +234,7 @@ fn keyboard_bindings(
     action: Action,
 ) -> Option<(OutputStream, Sink)> {
     let mut opt_handle = None;
+    println!("vk: {vk:?}");
     (winput::Vk::A == vk && Action::Press == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.a));
     });
@@ -600,6 +655,12 @@ fn keyboard_bindings(
     (winput::Vk::End == vk && Action::Release == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.end_up));
     });
+    (winput::Vk::_0 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.key_0));
+    });
+    (winput::Vk::_0 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.key_0_up));
+    });
     (winput::Vk::_1 == vk && Action::Press == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.key_1));
     });
@@ -654,6 +715,66 @@ fn keyboard_bindings(
     (winput::Vk::_9 == vk && Action::Release == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.key_9_up));
     });
+    (winput::Vk::Numpad0 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_0));
+    });
+    (winput::Vk::Numpad0 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_0_up));
+    });
+    (winput::Vk::Numpad1 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_1));
+    });
+    (winput::Vk::Numpad1 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_1_up));
+    });
+    (winput::Vk::Numpad2 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_2));
+    });
+    (winput::Vk::Numpad2 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_2_up));
+    });
+    (winput::Vk::Numpad3 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_3));
+    });
+    (winput::Vk::Numpad3 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_3_up));
+    });
+    (winput::Vk::Numpad4 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_4));
+    });
+    (winput::Vk::Numpad4 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_4_up));
+    });
+    (winput::Vk::Numpad5 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_5));
+    });
+    (winput::Vk::Numpad5 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_5_up));
+    });
+    (winput::Vk::Numpad6 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_6));
+    });
+    (winput::Vk::Numpad6 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_6_up));
+    });
+    (winput::Vk::Numpad7 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_7));
+    });
+    (winput::Vk::Numpad7 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_7_up));
+    });
+    (winput::Vk::Numpad8 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_8));
+    });
+    (winput::Vk::Numpad8 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_8_up));
+    });
+    (winput::Vk::Numpad9 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_9));
+    });
+    (winput::Vk::Numpad9 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numpad_9_up));
+    });
     (winput::Vk::RightWin == vk && Action::Press == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.right_win));
     });
@@ -665,6 +786,108 @@ fn keyboard_bindings(
     });
     (winput::Vk::LeftWin == vk && Action::Release == action).then(|| {
         opt_handle = Some(play_audio(&keyboard_config.left_win_up));
+    });
+    (winput::Vk::Oem102 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_102));
+    });
+    (winput::Vk::Oem102 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_102_up));
+    });
+    (winput::Vk::Oem2 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_2));
+    });
+    (winput::Vk::Oem2 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_2_up));
+    });
+    (winput::Vk::Period == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.period));
+    });
+    (winput::Vk::Period == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.period_up));
+    });
+    (winput::Vk::Oem1 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_1));
+    });
+    (winput::Vk::Oem1 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_1_up));
+    });
+    (winput::Vk::Oem2 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_2));
+    });
+    (winput::Vk::Oem2 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_2_up));
+    });
+    (winput::Vk::Oem3 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_3));
+    });
+    (winput::Vk::Oem3 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_3_up));
+    });
+    (winput::Vk::Oem4 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_4));
+    });
+    (winput::Vk::Oem4 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_4_up));
+    });
+    (winput::Vk::Oem5 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_5));
+    });
+    (winput::Vk::Oem5 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_5_up));
+    });
+    (winput::Vk::Oem6 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_6));
+    });
+    (winput::Vk::Oem6 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_6_up));
+    });
+    (winput::Vk::Oem7 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_7));
+    });
+    (winput::Vk::Oem7 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_7_up));
+    });
+    (winput::Vk::Oem8 == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_8));
+    });
+    (winput::Vk::Oem8 == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.oem_8_up));
+    });
+    (winput::Vk::Plus == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.plus));
+    });
+    (winput::Vk::Plus == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.plus_up));
+    });
+    (winput::Vk::Minus == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.minus));
+    });
+    (winput::Vk::Minus == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.minus_up));
+    });
+    (winput::Vk::Multiply == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.multiply));
+    });
+    (winput::Vk::Multiply == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.multiply_up));
+    });
+    (winput::Vk::Subtract == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.subtract));
+    });
+    (winput::Vk::Subtract == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.subtract_up));
+    });
+    (winput::Vk::CapsLock == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.capslock));
+    });
+    (winput::Vk::CapsLock == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.capslock_up));
+    });
+    (winput::Vk::Numlock == vk && Action::Press == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numlock));
+    });
+    (winput::Vk::Numlock == vk && Action::Release == action).then(|| {
+        opt_handle = Some(play_audio(&keyboard_config.numlock_up));
     });
     opt_handle
 }
