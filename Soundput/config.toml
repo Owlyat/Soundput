@@ -1,0 +1,267 @@
+####################################################################
+#                           Normal Keys                            #
+####################################################################
+
+a = "audio/KeyPress1.mp3"
+a_up = "audio/KeyRelease1.mp3"
+
+b = "audio/KeyPress1.mp3"
+b_up = "audio/KeyRelease1.mp3"
+
+c = "audio/KeyPress1.mp3"
+c_up = "audio/KeyRelease1.mp3"
+
+d = "audio/KeyPress1.mp3"
+d_up = "audio/KeyRelease1.mp3"
+
+e = "audio/KeyPress1.mp3"
+e_up = "audio/KeyRelease1.mp3"
+
+f = "audio/KeyPress1.mp3"
+f_up = "audio/KeyRelease1.mp3"
+
+g = "audio/KeyPress1.mp3"
+g_up = "audio/KeyRelease1.mp3"
+
+h = "audio/KeyPress2.mp3"
+h_up = "audio/KeyRelease2.mp3"
+
+i = "audio/KeyPress2.mp3"
+i_up = "audio/KeyRelease2.mp3"
+
+j = "audio/KeyPress2.mp3"
+j_up = "audio/KeyRelease2.mp3"
+
+k = "audio/KeyPress2.mp3"
+k_up = "audio/KeyRelease2.mp3"
+
+l = "audio/KeyPress2.mp3"
+l_up = "audio/KeyRelease2.mp3"
+
+m = "audio/KeyPress2.mp3"
+m_up = "audio/KeyRelease2.mp3"
+
+n = "audio/KeyPress2.mp3"
+n_up = "audio/KeyRelease2.mp3"
+
+o = "audio/KeyPress2.mp3"
+o_up = "audio/KeyRelease2.mp3"
+
+p = "audio/KeyPress2.mp3"
+p_up = "audio/KeyRelease2.mp3"
+
+q = "audio/KeyPress1.mp3"
+q_up = "audio/KeyRelease1.mp3"
+
+r = "audio/KeyPress1.mp3"
+r_up = "audio/KeyRelease1.mp3"
+
+s = "audio/KeyPress1.mp3"
+s_up = "audio/KeyRelease1.mp3"
+
+t = "audio/KeyPress1.mp3"
+t_up = "audio/KeyRelease1.mp3"
+
+u = "audio/KeyPress2.mp3"
+u_up = "audio/KeyRelease2.mp3"
+
+v = "audio/KeyPress1.mp3"
+v_up = "audio/KeyRelease1.mp3"
+
+w = "audio/KeyPress1.mp3"
+w_up = "audio/KeyRelease1.mp3"
+
+x = "audio/KeyPress1.mp3"
+x_up = "audio/KeyRelease1.mp3"
+
+y = "audio/KeyPress2.mp3"
+y_up = "audio/KeyRelease2.mp3"
+
+z = "audio/KeyPress1.mp3"
+z_up = "audio/KeyRelease1.mp3"
+
+comma = "audio/KeyPress2.mp3"
+comma_up = "audio/KeyRelease2.mp3"
+
+####################################################################
+#                         Numerical Keys                           #
+####################################################################
+
+key_1 = "audio/KeyPress8.mp3"
+key_1_up = "audio/KeyRelease8.mp3"
+
+key_2 = "audio/KeyPress8.mp3"
+key_2_up = "audio/KeyRelease8.mp3"
+
+key_3 = "audio/KeyPress8.mp3"
+key_3_up = "audio/KeyRelease8.mp3"
+
+key_4 = "audio/KeyPress8.mp3"
+key_4_up = "audio/KeyRelease8.mp3"
+
+key_5 = "audio/KeyPress8.mp3"
+key_5_up = "audio/KeyRelease8.mp3"
+
+key_6 = "audio/KeyPress8.mp3"
+key_6_up = "audio/KeyRelease8.mp3"
+
+key_7 = "audio/KeyPress8.mp3"
+key_7_up = "audio/KeyRelease8.mp3"
+
+key_8 = "audio/KeyPress8.mp3"
+key_8_up = "audio/KeyRelease8.mp3"
+
+key_9 = "audio/KeyPress8.mp3"
+key_9_up = "audio/KeyRelease8.mp3"
+
+####################################################################
+#                          Special Keys                            #
+####################################################################
+
+enter = "audio/KeyPress6.mp3"
+enter_up = "audio/KeyRelease6.mp3"
+
+esc = "audio/KeyPress2.mp3"
+esc_up = "audio/KeyRelease2.mp3"
+
+space = "audio/KeyPress3.mp3"
+space_up = "audio/KeyRelease3.mp3"
+
+delete = "audio/KeyPress4.mp3"
+delete_up = "audio/KeyRelease4.mp3"
+
+backspace = "audio/KeyPress4.mp3"
+backspace_up = "audio/KeyRelease4.mp3"
+
+home = "audio/KeyPress4.mp3"
+home_up = "audio/KeyRelease4.mp3"
+
+end = "audio/KeyPress4.mp3"
+end_up = "audio/KeyRelease4.mp3"
+
+####################################################################
+#                         Arrow Keys                               #
+####################################################################
+
+leftarrow = "audio/KeyPress8.mp3"
+leftarrow_up = "audio/KeyRelease8.mp3"
+
+rightarrow = "audio/KeyPress8.mp3"
+rightarrow_up = "audio/KeyRelease8.mp3"
+
+uparrow = "audio/KeyPress8.mp3"
+uparrow_up = "audio/KeyRelease8.mp3"
+
+downarrow = "audio/KeyPress8.mp3"
+downarrow_up = "audio/KeyRelease8.mp3"
+
+####################################################################
+#                         Modifiers                                #
+####################################################################
+
+right_win = "audio/KeyPress9.mp3"
+right_win_up = "audio/KeyRelease9.mp3"
+
+left_win = "audio/KeyPress9.mp3"
+left_win_up = "audio/KeyRelease9.mp3"
+
+shift = "audio/KeyPress5.mp3"
+shift_up = "audio/KeyRelease5.mp3"
+
+lshift = "audio/KeyPress5.mp3"
+lshift_up = "audio/KeyRelease5.mp3"
+
+rshift = "audio/KeyPress5.mp3"
+rshift_up = "audio/KeyRelease5.mp3"
+
+tab = "audio/BigKeyPress1.mp3"
+tab_up = "audio/BigKeyRelease1.mp3"
+
+alt = "audio/BigKeyPress2.mp3"
+alt_up = "audio/BigKeyRelease2.mp3"
+
+ctrl = "audio/KeyPress9.mp3"
+ctrl_up = "audio/KeyRelease9.mp3"
+
+# These might not work depending on your keyboard
+lctrl = "audio/KeyPress9.mp3"
+lctrl_up = "audio/KeyRelease9.mp3"
+
+rctrl = "audio/KeyPress9.mp3"
+rctrl_up = "audio/KeyRelease9.mp3"
+
+####################################################################
+#                        Function Keys                             #
+####################################################################
+
+f1 = "audio/KeyPress7.mp3"
+f1_up = "audio/KeyRelease7.mp3"
+
+f2 = "audio/KeyPress7.mp3"
+f2_up = "audio/KeyRelease7.mp3"
+
+f3  = "audio/KeyPress7.mp3"
+f3_up = "audio/KeyRelease7.mp3"
+
+f4  = "audio/KeyPress7.mp3"
+f4_up = "audio/KeyRelease7.mp3"
+
+f5  = "audio/KeyPress7.mp3"
+f5_up = "audio/KeyRelease7.mp3"
+
+f6  = "audio/KeyPress7.mp3"
+f6_up = "audio/KeyRelease7.mp3"
+
+f7  = "audio/KeyPress7.mp3"
+f7_up = "audio/KeyRelease7.mp3"
+
+f8  = "audio/KeyPress7.mp3"
+f8_up = "audio/KeyRelease7.mp3"
+
+f9  = "audio/KeyPress7.mp3"
+f9_up = "audio/KeyRelease7.mp3"
+
+f10 = "audio/KeyPress7.mp3"
+f10_up = "audio/KeyRelease7.mp3"
+
+f11 = "audio/KeyPress7.mp3"
+f11_up = "audio/KeyRelease7.mp3"
+
+f12 = "audio/KeyPress7.mp3"
+f12_up = "audio/KeyRelease7.mp3"
+
+f13 = "audio/KeyPress7.mp3"
+f13_up = "audio/KeyRelease7.mp3"
+
+f14 = "audio/KeyPress7.mp3"
+f14_up = "audio/KeyRelease7.mp3"
+
+f15 = "audio/KeyPress7.mp3"
+f15_up = "audio/KeyRelease7.mp3"
+
+f16 = "audio/KeyPress7.mp3"
+f16_up = "audio/KeyRelease7.mp3"
+
+f17 = "audio/KeyPress7.mp3"
+f17_up = "audio/KeyRelease7.mp3"
+
+f18 = "audio/KeyPress7.mp3"
+f18_up = "audio/KeyRelease7.mp3"
+
+f19 = "audio/KeyPress7.mp3"
+f19_up = "audio/KeyRelease7.mp3"
+
+f20 = "audio/KeyPress7.mp3"
+f20_up = "audio/KeyRelease7.mp3"
+
+f21 = "audio/KeyPress7.mp3"
+f21_up = "audio/KeyRelease7.mp3"
+
+f22 = "audio/KeyPress7.mp3"
+f22_up = "audio/KeyRelease7.mp3"
+
+f23 = "audio/KeyPress7.mp3"
+f23_up = "audio/KeyRelease7.mp3"
+
+f24 = "audio/KeyPress7.mp3"
+f24_up = "audio/KeyRelease7.mp3"
