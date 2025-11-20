@@ -1,3 +1,4 @@
+[keyboard_bindings]
 ####################################################################
 #                           Normal Keys                            #
 ####################################################################
@@ -88,65 +89,65 @@ n_up = "audio/KeyRelease2.mp3"
 #                         Numerical Keys                           #
 ####################################################################
 
-key_0 = "audio/KeyPress8.mp3"
-key_0_up = "audio/KeyRelease8.mp3"
+_0 = "audio/KeyPress8.mp3"
+_0_up = "audio/KeyRelease8.mp3"
 
-key_1 = "audio/KeyPress8.mp3"
-key_1_up = "audio/KeyRelease8.mp3"
+_1 = "audio/KeyPress8.mp3"
+_1_up = "audio/KeyRelease8.mp3"
 
-key_2 = "audio/KeyPress8.mp3"
-key_2_up = "audio/KeyRelease8.mp3"
+_2 = "audio/KeyPress8.mp3"
+_2_up = "audio/KeyRelease8.mp3"
 
-key_3 = "audio/KeyPress8.mp3"
-key_3_up = "audio/KeyRelease8.mp3"
+_3 = "audio/KeyPress8.mp3"
+_3_up = "audio/KeyRelease8.mp3"
 
-key_4 = "audio/KeyPress8.mp3"
-key_4_up = "audio/KeyRelease8.mp3"
+_4 = "audio/KeyPress8.mp3"
+_4_up = "audio/KeyRelease8.mp3"
 
-key_5 = "audio/KeyPress8.mp3"
-key_5_up = "audio/KeyRelease8.mp3"
+_5 = "audio/KeyPress8.mp3"
+_5_up = "audio/KeyRelease8.mp3"
 
-key_6 = "audio/KeyPress8.mp3"
-key_6_up = "audio/KeyRelease8.mp3"
+_6 = "audio/KeyPress8.mp3"
+_6_up = "audio/KeyRelease8.mp3"
 
-key_7 = "audio/KeyPress8.mp3"
-key_7_up = "audio/KeyRelease8.mp3"
+_7 = "audio/KeyPress8.mp3"
+_7_up = "audio/KeyRelease8.mp3"
 
-key_8 = "audio/KeyPress8.mp3"
-key_8_up = "audio/KeyRelease8.mp3"
+_8 = "audio/KeyPress8.mp3"
+_8_up = "audio/KeyRelease8.mp3"
 
-key_9 = "audio/KeyPress8.mp3"
-key_9_up = "audio/KeyRelease8.mp3"
+_9 = "audio/KeyPress8.mp3"
+_9_up = "audio/KeyRelease8.mp3"
 
-numpad_0 = "audio/KeyPress8.mp3"
-numpad_0_up = "audio/KeyRelease8.mp3"
+numpad0 = "audio/KeyPress8.mp3"
+numpad0_up = "audio/KeyRelease8.mp3"
 
-numpad_1 = "audio/KeyPress8.mp3"
-numpad_1_up = "audio/KeyRelease8.mp3"
+numpad1 = "audio/KeyPress8.mp3"
+numpad1_up = "audio/KeyRelease8.mp3"
 
-numpad_2 = "audio/KeyPress8.mp3"
-numpad_2_up = "audio/KeyRelease8.mp3"
+numpad2 = "audio/KeyPress8.mp3"
+numpad2_up = "audio/KeyRelease8.mp3"
 
-numpad_3 = "audio/KeyPress8.mp3"
-numpad_3_up = "audio/KeyRelease8.mp3"
+numpad3 = "audio/KeyPress8.mp3"
+numpad3_up = "audio/KeyRelease8.mp3"
 
-numpad_4 = "audio/KeyPress8.mp3"
-numpad_4_up = "audio/KeyRelease8.mp3"
+numpad4 = "audio/KeyPress8.mp3"
+numpad4_up = "audio/KeyRelease8.mp3"
 
-numpad_5 = "audio/KeyPress8.mp3"
-numpad_5_up = "audio/KeyRelease8.mp3"
+numpad5 = "audio/KeyPress8.mp3"
+numpad5_up = "audio/KeyRelease8.mp3"
 
-numpad_6 = "audio/KeyPress8.mp3"
-numpad_6_up = "audio/KeyRelease8.mp3"
+numpad6 = "audio/KeyPress8.mp3"
+numpad6_up = "audio/KeyRelease8.mp3"
 
-numpad_7 = "audio/KeyPress8.mp3"
-numpad_7_up = "audio/KeyRelease8.mp3"
+numpad7 = "audio/KeyPress8.mp3"
+numpad7_up = "audio/KeyRelease8.mp3"
 
-numpad_8 = "audio/KeyPress8.mp3"
-numpad_8_up = "audio/KeyRelease8.mp3"
+numpad8 = "audio/KeyPress8.mp3"
+numpad8_up = "audio/KeyRelease8.mp3"
 
-numpad_9 = "audio/KeyPress8.mp3"
-numpad_9_up = "audio/KeyRelease8.mp3"
+numpad9 = "audio/KeyPress8.mp3"
+numpad9_up = "audio/KeyRelease8.mp3"
 
 ####################################################################
 #                          Special Keys                            #
@@ -161,8 +162,8 @@ period_up = "audio/KeyRelease2.mp3"
 enter = "audio/KeyPress6.mp3"
 enter_up = "audio/KeyRelease6.mp3"
 
-esc = "audio/KeyPress2.mp3"
-esc_up = "audio/KeyRelease2.mp3"
+escape = "audio/KeyPress2.mp3"
+escape_up = "audio/KeyRelease2.mp3"
 
 space = "audio/KeyPress3.mp3"
 space_up = "audio/KeyRelease3.mp3"
@@ -199,32 +200,32 @@ numlock_up = "audio/KeyRelease4.mp3"
 
 #=============================OEM Keys=============================#
 
-oem_1 = "audio/KeyPress2.mp3"
-oem_1_up = "audio/KeyRelease2.mp3"
+oem1 = "audio/KeyPress2.mp3"
+oem1_up = "audio/KeyRelease2.mp3"
 
-oem_2 = "audio/KeyPress2.mp3"
-oem_2_up = "audio/KeyRelease2.mp3"
+oem2 = "audio/KeyPress2.mp3"
+oem2_up = "audio/KeyRelease2.mp3"
 
-oem_3 = "audio/KeyPress2.mp3"
-oem_3_up = "audio/KeyRelease2.mp3"
+oem3 = "audio/KeyPress2.mp3"
+oem3_up = "audio/KeyRelease2.mp3"
 
-oem_4 = "audio/KeyPress2.mp3"
-oem_4_up = "audio/KeyRelease2.mp3"
+oem4 = "audio/KeyPress2.mp3"
+oem4_up = "audio/KeyRelease2.mp3"
 
-oem_5 = "audio/KeyPress2.mp3"
-oem_5_up = "audio/KeyRelease2.mp3"
+oem5 = "audio/KeyPress2.mp3"
+oem5_up = "audio/KeyRelease2.mp3"
 
-oem_6 = "audio/KeyPress2.mp3"
-oem_6_up = "audio/KeyRelease2.mp3"
+oem6 = "audio/KeyPress2.mp3"
+oem6_up = "audio/KeyRelease2.mp3"
 
-oem_7 = "audio/KeyPress2.mp3"
-oem_7_up = "audio/KeyRelease2.mp3"
+oem7 = "audio/KeyPress2.mp3"
+oem7_up = "audio/KeyRelease2.mp3"
 
-oem_8 = "audio/KeyPress2.mp3"
-oem_8_up = "audio/KeyRelease2.mp3"
+oem8 = "audio/KeyPress2.mp3"
+oem8_up = "audio/KeyRelease2.mp3"
 
-oem_102 = "audio/KeyPress4.mp3"
-oem_102_up = "audio/KeyRelease4.mp3"
+oem102 = "audio/KeyPress4.mp3"
+oem102_up = "audio/KeyRelease4.mp3"
 
 ####################################################################
 #                         Arrow Keys                               #
@@ -267,14 +268,14 @@ tab_up = "audio/BigKeyRelease1.mp3"
 alt = "audio/BigKeyPress2.mp3"
 alt_up = "audio/BigKeyRelease2.mp3"
 
-ctrl = "audio/KeyPress9.mp3"
-ctrl_up = "audio/KeyRelease9.mp3"
+control = "audio/KeyPress9.mp3"
+control_up = "audio/KeyRelease9.mp3"
 
-lctrl = "audio/KeyPress9.mp3"
-lctrl_up = "audio/KeyRelease9.mp3"
+leftcontrol = "audio/KeyPress9.mp3"
+leftcontrol_up = "audio/KeyRelease9.mp3"
 
-rctrl = "audio/KeyPress9.mp3"
-rctrl_up = "audio/KeyRelease9.mp3"
+rightcontrol = "audio/KeyPress9.mp3"
+rightcontrol_up = "audio/KeyRelease9.mp3"
 
 ####################################################################
 #                        Function Keys                             #
