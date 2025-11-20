@@ -84,12 +84,12 @@ fn main() {
     let mut last_action = Vec::default();
     let mut audio = audio_innit();
     loop {
-        match receiver.try_next_event() {
-            Some(message_loop::Event::Keyboard {
+        match receiver.next_event() {
+            message_loop::Event::Keyboard {
                 vk,
                 scan_code: _,
                 action,
-            }) => {
+            } => {
                 keyboard_bindings(&config, vk, action, &mut audio.1, &mut last_action);
             }
             _ => {}
