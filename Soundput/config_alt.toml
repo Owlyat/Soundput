@@ -3,7 +3,7 @@
 #        FALLBACK AUDIO MAPPING         #
 #########################################
 default_key = "audio_alt/KeyPressIn13.mp3"
-default_key_up = "audio_alt/KeyPressIn13.mp3"
+default_key_up = "audio_alt/KeyPressOut13.mp3"
 
 # ALPHABET KEYS (A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)
 alphabet_key = "audio_alt/KeyPressIn09.mp3"
@@ -20,17 +20,20 @@ arrow_key_up = "audio_alt/KeyPressOut06.mp3"
 #########################################
 # SPECIFIC KEYS(Optional with fallback) #
 #########################################
-space = "audio_alt/KeyPressIn10.mp3"
-space_up = "audio_alt/KeyPressOut10.mp3"
+space = "audio_alt/KeyPressIn03.mp3"
+space_up = "audio_alt/KeyPressOut07.mp3"
 
 backspace = "audio_alt/KeyPressIn04.mp3"
 backspace_up = "audio_alt/KeyPressOut04.mp3"
 
+delete = "audio_alt/KeyPressIn04.mp3"
+delete_up = "audio_alt/KeyPressOut04.mp3"
+
 escape = "audio_alt/KeyPressIn05.mp3"
 escape_up = "audio_alt/KeyPressOut05.mp3"
 
-tab = "audio_alt/KeyPressIn02.mp3"
-tab_up = "audio_alt/KeyPressOut02.mp3"
+tab = "audio_alt/KeyPressIn10.mp3"
+tab_up = "audio_alt/KeyPressOut10.mp3"
 
 enter = "audio_alt/KeyPressIn03.mp3"
 enter_up = "audio_alt/KeyPressOut03.mp3"

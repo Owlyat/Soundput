@@ -1,13 +1,24 @@
 use std::{
+    cell::OnceCell,
     fs::{self, File},
     io::BufReader,
+    sync::{Arc, Mutex},
 };
 
+use crossbeam_channel::{select, select_biased};
 use rodio::{Decoder, OutputStream, Sink};
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::path::PathBuf;
-use winput::{Action, Vk, message_loop};
+use tray_icon::{
+    Icon, MouseButton, TrayIcon, TrayIconBuilder, TrayIconEvent,
+    menu::{Menu, MenuEvent, MenuItem},
+};
+use winit::{application::ApplicationHandler, event_loop::EventLoop};
+use winput::{
+    Action, Vk,
+    message_loop::{self, EventReceiver},
+};
 
 const ARROW_ACTION: &[Vk] = &[Vk::UpArrow, Vk::DownArrow, Vk::LeftArrow, Vk::RightArrow];
 
@@ -98,11 +109,6 @@ fn get_audio_and_play(config: &Config, sink: &mut Sink, s: impl Into<String>, ac
         alphabetic_s.push_str("_up");
         arrow_s.push_str("_up");
     }
-    println!(
-        "Action: {s} | is_digit: {} => {digit_s} | is_alphabet: {} => {alphabetic_s}",
-        is_digit(&s),
-        is_alphabet(&s)
-    );
     if let Some(opt_path) = config.keyboard_bindings.get(&s) {
         if let Some(path) = opt_path {
             play_audio(path, sink);
@@ -202,21 +208,141 @@ fn get_default_config() -> Config {
     config
 }
 
-fn main() {
-    let config = get_default_config();
-    let receiver = message_loop::start().expect("Could not start message loop");
-    let mut last_action = Vec::default();
-    let mut audio = audio_innit();
-    loop {
-        match receiver.next_event() {
-            message_loop::Event::Keyboard {
-                vk,
-                scan_code: _,
-                action,
-            } => {
-                keyboard_bindings(&config, vk, action, &mut audio.1, &mut last_action);
-            }
-            _ => {}
+struct Application {
+    tray_icon: TrayIcon,
+    audio: (OutputStream, Sink),
+    last_action: Vec<(Vk, Action)>,
+    config: Config,
+}
+
+impl Default for Application {
+    fn default() -> Self {
+        Self {
+            tray_icon: TrayIconBuilder::new()
+                .with_icon(
+                    tray_icon::Icon::from_resource_name("app-icon", None)
+                        .expect("Error loading App Icon"),
+                )
+                .with_tooltip("Soundput - LeftClick: Reload | RightClick: Quit")
+                .build()
+                .expect("Error building Tray"),
+            audio: audio_innit(),
+            last_action: vec![],
+            config: get_default_config(),
         }
     }
+}
+
+#[derive(Debug)]
+enum UserEvent {
+    TrayIconEvent(tray_icon::TrayIconEvent),
+    MenuEvent(tray_icon::menu::MenuEvent),
+    Event(message_loop::Event),
+}
+
+impl ApplicationHandler<UserEvent> for Application {
+    fn resumed(&mut self, event_loop: &winit::event_loop::ActiveEventLoop) {}
+
+    fn window_event(
+        &mut self,
+        event_loop: &winit::event_loop::ActiveEventLoop,
+        window_id: winit::window::WindowId,
+        event: winit::event::WindowEvent,
+    ) {
+    }
+
+    fn new_events(
+        &mut self,
+        _event_loop: &winit::event_loop::ActiveEventLoop,
+        cause: winit::event::StartCause,
+    ) {
+    }
+
+    fn user_event(&mut self, _event_loop: &winit::event_loop::ActiveEventLoop, event: UserEvent) {
+        match event {
+            UserEvent::TrayIconEvent(tray_icon_event) => match tray_icon_event {
+                TrayIconEvent::Click {
+                    id,
+                    position,
+                    rect,
+                    button,
+                    button_state,
+                } => {
+                    if button == MouseButton::Right {
+                        println!("Right Clicked!");
+                        std::process::exit(0);
+                    }
+                    if button == MouseButton::Left {
+                        println!("Left Clicked!");
+                        self.config = get_default_config();
+                    }
+                }
+                TrayIconEvent::DoubleClick {
+                    id,
+                    position,
+                    rect,
+                    button,
+                } => {}
+                TrayIconEvent::Enter { id, position, rect } => {}
+                TrayIconEvent::Move { id, position, rect } => {}
+                TrayIconEvent::Leave { id, position, rect } => {}
+                _ => {}
+            },
+            UserEvent::MenuEvent(menu_event) => match menu_event {
+                MenuEvent { id } => match id.0.as_str() {
+                    _ => {
+                        println!("id: {}", id.0);
+                    }
+                },
+            },
+            UserEvent::Event(event) => match event {
+                message_loop::Event::Keyboard {
+                    vk,
+                    scan_code,
+                    action,
+                } => {
+                    keyboard_bindings(
+                        &self.config,
+                        vk,
+                        action,
+                        &mut self.audio.1,
+                        &mut self.last_action,
+                    );
+                }
+                message_loop::Event::MouseMoveRelative { x, y } => {}
+                message_loop::Event::MouseMoveAbsolute { x, y, virtual_desk } => {}
+                message_loop::Event::MouseButton { action, button } => {}
+                message_loop::Event::MouseWheel { delta, direction } => {}
+            },
+        }
+    }
+}
+
+fn main() {
+    let mut app = Application::default();
+    let event_loop = EventLoop::<UserEvent>::with_user_event()
+        .build()
+        .expect("Failed to build an event loop");
+    event_loop.set_control_flow(winit::event_loop::ControlFlow::Wait);
+    let proxy = event_loop.create_proxy();
+    TrayIconEvent::set_event_handler(Some(move |event| {
+        let _ = proxy.send_event(UserEvent::TrayIconEvent(event));
+    }));
+    let proxy = event_loop.create_proxy();
+    MenuEvent::set_event_handler(Some(move |event| {
+        let _ = proxy.send_event(UserEvent::MenuEvent(event));
+    }));
+
+    let proxy = event_loop.create_proxy();
+    let receiver = message_loop::start().expect("Could not start message loop");
+    std::thread::spawn(move || {
+        while let Ok(event) = receiver.receiver().recv() {
+            let _ = proxy.send_event(UserEvent::Event(event));
+        }
+    });
+
+    event_loop
+        .run_app(&mut app)
+        .is_err()
+        .then(|| std::process::exit(1));
 }
