@@ -1,24 +1,15 @@
 use std::{
-    cell::OnceCell,
+    collections::HashMap,
     fs::{self, File},
     io::BufReader,
-    sync::{Arc, Mutex},
+    path::PathBuf,
 };
 
-use crossbeam_channel::{select, select_biased};
 use rodio::{Decoder, OutputStream, Sink};
 use serde::Deserialize;
-use std::collections::HashMap;
-use std::path::PathBuf;
-use tray_icon::{
-    Icon, MouseButton, TrayIcon, TrayIconBuilder, TrayIconEvent,
-    menu::{Menu, MenuEvent, MenuItem},
-};
+use tray_icon::{MouseButton, TrayIcon, TrayIconBuilder, TrayIconEvent, menu::MenuEvent};
 use winit::{application::ApplicationHandler, event_loop::EventLoop};
-use winput::{
-    Action, Vk,
-    message_loop::{self, EventReceiver},
-};
+use winput::{Action, Vk, message_loop};
 
 const ARROW_ACTION: &[Vk] = &[Vk::UpArrow, Vk::DownArrow, Vk::LeftArrow, Vk::RightArrow];
 
@@ -74,8 +65,14 @@ const ALPHABETIC_ACTION: &[Vk] = &[
     Vk::Z,
 ];
 
+fn default_break() -> bool {
+    true
+}
+
 #[derive(Deserialize)]
 struct Config {
+    #[serde(rename = "break", default = "default_break")]
+    break_audio: bool,
     keyboard_bindings: HashMap<String, Option<PathBuf>>,
 }
 
@@ -83,66 +80,52 @@ fn keyboard_bindings(
     config: &Config,
     vk: winput::Vk,
     action: Action,
-    sink: &mut Sink,
-    last_action: &mut Vec<(winput::Vk, Action)>,
+    audio: &mut Audio,
+    last_action: &mut HashMap<winput::Vk, Action>,
 ) {
-    last_action.pop_if(|(_, act)| *act == Action::Release);
-    if last_action.contains(&(vk, action)) {
+    if last_action.get(&vk) == Some(&action) {
         return;
     }
+    last_action.insert(vk, action);
     println!("{vk:?}");
-    get_audio_and_play(config, sink, format!("{vk:?}").to_lowercase(), action);
-    last_action.pop_if(|(_, act)| *act == Action::Press);
-    last_action.push((vk, action));
+    get_audio_and_play(config, audio, format!("{vk:?}").to_lowercase(), action);
 }
 
-fn get_audio_and_play(config: &Config, sink: &mut Sink, s: impl Into<String>, act: Action) {
-    let mut s: String = s.into();
-    let mut default_s: String = "default_key".into();
-    let mut digit_s: String = "digit_key".into();
-    let mut alphabetic_s: String = "alphabet_key".into();
-    let mut arrow_s: String = "arrow_key".into();
-    if act == Action::Release {
-        s.push_str("_up");
-        default_s.push_str("_up");
-        digit_s.push_str("_up");
-        alphabetic_s.push_str("_up");
-        arrow_s.push_str("_up");
-    }
-    if let Some(opt_path) = config.keyboard_bindings.get(&s) {
-        if let Some(path) = opt_path {
-            play_audio(path, sink);
-            return;
-        }
-    } else if is_digit(&s) {
-        if let Some(opt_path) = config.keyboard_bindings.get(&digit_s) {
-            if let Some(path) = opt_path {
-                play_audio(path, sink);
-                return;
-            }
-        }
-    } else if is_alphabet(&s) {
-        if let Some(opt_path) = config.keyboard_bindings.get(&alphabetic_s) {
-            if let Some(path) = opt_path {
-                play_audio(path, sink);
-                return;
-            }
-        } else {
-            println!("No audio found as {alphabetic_s}");
-        }
-    } else if is_arrow_key(&s) {
-        if let Some(opt_path) = config.keyboard_bindings.get(&arrow_s) {
-            if let Some(path) = opt_path {
-                play_audio(path, sink);
-                return;
-            }
-        }
-    }
+fn get_audio_and_play(config: &Config, audio: &mut Audio, s: impl Into<String>, act: Action) {
+    let suffix = if act == Action::Release { "_up" } else { "" };
+    let s = format!("{}{suffix}", s.into());
+    let default_s = format!("default_key{suffix}");
 
-    if let Some(opt_path) = config.keyboard_bindings.get(&default_s) {
-        if let Some(path) = opt_path {
-            play_audio(path, sink);
+    let path = match config.keyboard_bindings.get(&s) {
+        Some(Some(path)) => Some(path),
+        Some(None) => config
+            .keyboard_bindings
+            .get(&default_s)
+            .and_then(|p| p.as_ref()),
+        None => {
+            let category = if is_digit(&s) {
+                "digit_key"
+            } else if is_alphabet(&s) {
+                "alphabet_key"
+            } else if is_arrow_key(&s) {
+                "arrow_key"
+            } else {
+                ""
+            };
+            let category_path = (!category.is_empty())
+                .then(|| format!("{category}{suffix}"))
+                .and_then(|key| config.keyboard_bindings.get(&key).and_then(|p| p.as_ref()));
+            category_path.or_else(|| {
+                config
+                    .keyboard_bindings
+                    .get(&default_s)
+                    .and_then(|p| p.as_ref())
+            })
         }
+    };
+
+    if let Some(path) = path {
+        play_audio(path, audio, config.break_audio);
     }
 }
 
@@ -173,25 +156,40 @@ fn is_arrow_key(i: &String) -> bool {
         .is_some()
 }
 
-fn audio_innit() -> (OutputStream, Sink) {
-    let mut stream_handle =
-        rodio::OutputStreamBuilder::open_default_stream().expect("Open default audio stream");
-    stream_handle.log_on_drop(false);
-    let sink = rodio::Sink::connect_new(stream_handle.mixer());
-    (stream_handle, sink)
+struct Audio {
+    stream: OutputStream,
+    sinks: Vec<(PathBuf, Sink)>,
 }
 
-fn play_audio(file: &PathBuf, sink: &mut Sink) {
-    let file = std::env::home_dir()
+fn audio_innit() -> Audio {
+    let mut stream =
+        rodio::OutputStreamBuilder::open_default_stream().expect("Open default audio stream");
+    stream.log_on_drop(false);
+    Audio {
+        stream,
+        sinks: Vec::new(),
+    }
+}
+
+fn play_audio(file: &PathBuf, audio: &mut Audio, break_audio: bool) {
+    let path = std::env::home_dir()
         .expect("Could not get HomeDir")
         .join(".config/Soundput/")
         .join(file);
     let file = BufReader::new(
-        File::open(&file).expect(&format!("Could not open file {}", file.to_string_lossy())),
+        File::open(&path)
+            .unwrap_or_else(|err| panic!("Could not open file {}: {err}", path.to_string_lossy())),
     );
     if let Ok(src) = Decoder::try_from(file) {
-        sink.skip_one();
+        if break_audio {
+            audio.sinks.clear();
+        } else {
+            audio.sinks.retain(|(_, sink)| !sink.empty());
+            audio.sinks.retain(|(p, _)| p != &path);
+        }
+        let sink = Sink::connect_new(audio.stream.mixer());
         sink.append(src);
+        audio.sinks.push((path, sink));
     }
 }
 
@@ -209,16 +207,16 @@ fn get_default_config() -> Config {
 }
 
 struct Application {
-    tray_icon: TrayIcon,
-    audio: (OutputStream, Sink),
-    last_action: Vec<(Vk, Action)>,
+    _tray_icon: TrayIcon,
+    audio: Audio,
+    last_action: HashMap<Vk, Action>,
     config: Config,
 }
 
 impl Default for Application {
     fn default() -> Self {
         Self {
-            tray_icon: TrayIconBuilder::new()
+            _tray_icon: TrayIconBuilder::new()
                 .with_icon(
                     tray_icon::Icon::from_resource_name("app-icon", None)
                         .expect("Error loading App Icon"),
@@ -227,7 +225,7 @@ impl Default for Application {
                 .build()
                 .expect("Error building Tray"),
             audio: audio_innit(),
-            last_action: vec![],
+            last_action: HashMap::new(),
             config: get_default_config(),
         }
     }
@@ -241,33 +239,27 @@ enum UserEvent {
 }
 
 impl ApplicationHandler<UserEvent> for Application {
-    fn resumed(&mut self, event_loop: &winit::event_loop::ActiveEventLoop) {}
+    fn resumed(&mut self, _event_loop: &winit::event_loop::ActiveEventLoop) {}
 
     fn window_event(
         &mut self,
-        event_loop: &winit::event_loop::ActiveEventLoop,
-        window_id: winit::window::WindowId,
-        event: winit::event::WindowEvent,
+        _event_loop: &winit::event_loop::ActiveEventLoop,
+        _window_id: winit::window::WindowId,
+        _event: winit::event::WindowEvent,
     ) {
     }
 
     fn new_events(
         &mut self,
         _event_loop: &winit::event_loop::ActiveEventLoop,
-        cause: winit::event::StartCause,
+        _cause: winit::event::StartCause,
     ) {
     }
 
     fn user_event(&mut self, _event_loop: &winit::event_loop::ActiveEventLoop, event: UserEvent) {
         match event {
             UserEvent::TrayIconEvent(tray_icon_event) => match tray_icon_event {
-                TrayIconEvent::Click {
-                    id,
-                    position,
-                    rect,
-                    button,
-                    button_state,
-                } => {
+                TrayIconEvent::Click { button, .. } => {
                     if button == MouseButton::Right {
                         println!("Right Clicked!");
                         std::process::exit(0);
@@ -277,42 +269,29 @@ impl ApplicationHandler<UserEvent> for Application {
                         self.config = get_default_config();
                     }
                 }
-                TrayIconEvent::DoubleClick {
-                    id,
-                    position,
-                    rect,
-                    button,
-                } => {}
-                TrayIconEvent::Enter { id, position, rect } => {}
-                TrayIconEvent::Move { id, position, rect } => {}
-                TrayIconEvent::Leave { id, position, rect } => {}
+                TrayIconEvent::DoubleClick { .. } => {}
+                TrayIconEvent::Enter { .. } => {}
+                TrayIconEvent::Move { .. } => {}
+                TrayIconEvent::Leave { .. } => {}
                 _ => {}
             },
-            UserEvent::MenuEvent(menu_event) => match menu_event {
-                MenuEvent { id } => match id.0.as_str() {
-                    _ => {
-                        println!("id: {}", id.0);
-                    }
-                },
-            },
+            UserEvent::MenuEvent(MenuEvent { id }) => {
+                println!("id: {}", id.0);
+            }
             UserEvent::Event(event) => match event {
-                message_loop::Event::Keyboard {
-                    vk,
-                    scan_code,
-                    action,
-                } => {
+                message_loop::Event::Keyboard { vk, action, .. } => {
                     keyboard_bindings(
                         &self.config,
                         vk,
                         action,
-                        &mut self.audio.1,
+                        &mut self.audio,
                         &mut self.last_action,
                     );
                 }
-                message_loop::Event::MouseMoveRelative { x, y } => {}
-                message_loop::Event::MouseMoveAbsolute { x, y, virtual_desk } => {}
-                message_loop::Event::MouseButton { action, button } => {}
-                message_loop::Event::MouseWheel { delta, direction } => {}
+                message_loop::Event::MouseMoveRelative { .. } => {}
+                message_loop::Event::MouseMoveAbsolute { .. } => {}
+                message_loop::Event::MouseButton { .. } => {}
+                message_loop::Event::MouseWheel { .. } => {}
             },
         }
     }

@@ -1,3 +1,7 @@
+# break = true  -> a new key sound stops the one currently playing (cuts off the press audio)
+# break = false -> key press and release sounds play together without stopping each other
+break = true
+
 [keyboard_bindings]
 ####################################################################
 #                           Normal Keys                            #

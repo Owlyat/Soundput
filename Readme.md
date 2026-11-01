@@ -1,6 +1,9 @@
 ### Config
 Windows : `%Userprofile%/.config/Soundput/config.toml` (Copy Soundput folder to this directory)
 
+`break = true` (default) cuts off the currently playing key press audio when the next sound starts.
+`break = false` keeps the press audio playing and layers the release audio on top of it.
+
 ## Installation
 Build from cargo.
 `Cargo build --release`
