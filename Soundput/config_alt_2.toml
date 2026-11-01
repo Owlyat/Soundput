@@ -1,7 +1,4 @@
-# break = true  -> a new key sound stops the one currently playing (cuts off the press audio)
-# break = false -> key press and release sounds play together without stopping each other
-break = true
-
+break = false
 [keyboard_bindings]
 #########################################
 #        FALLBACK AUDIO MAPPING         #
@@ -10,34 +7,34 @@ default_key = "audio_alt_2/01.wav"
 default_key_up = "audio_alt_2/02.wav"
 
 # ALPHABET KEYS (A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)
-alphabet_key = "audio_alt_2/03.wav"
-alphabet_key_up = "audio_alt_2/04.wav"
+alphabet_key = "audio_alt_2/16.wav"
+alphabet_key_up = "audio_alt_2/17.wav"
 
 # DIGIT KEYS (0|1|2|3|4|5|6|7|8|9)
-digit_key = "audio_alt_2/05.wav"
+digit_key = "audio_alt_2/07.wav"
 digit_key_up = "audio_alt_2/06.wav"
 
 # ARROW KEYS (UP|DOWN|LEFT|RIGHT)
 arrow_key = "audio_alt_2/07.wav"
-arrow_key_up = "audio_alt_2/08.wav"
+arrow_key_up = "audio_alt_2/05.wav"
 
 #########################################
 # SPECIFIC KEYS(Optional with fallback) #
 #########################################
-space = "audio_alt_2/09.wav"
-space_up = "audio_alt_2/10.wav"
+space = "audio_alt_2/01.wav"
+space_up = "audio_alt_2/14.wav"
 
-backspace = "audio_alt_2/11.wav"
-backspace_up = "audio_alt_2/12.wav"
+backspace = "audio_alt_2/12.wav"
+backspace_up = "audio_alt_2/11.wav"
 
-delete = "audio_alt_2/11.wav"
-delete_up = "audio_alt_2/12.wav"
+delete = "audio_alt_2/12.wav"
+delete_up = "audio_alt_2/11.wav"
 
-escape = "audio_alt_2/11.wav"
-escape_up = "audio_alt_2/12.wav"
+escape = "audio_alt_2/12.wav"
+escape_up = "audio_alt_2/11.wav"
 
 tab = "audio_alt_2/13.wav"
 tab_up = "audio_alt_2/14.wav"
 
-enter = "audio_alt_2/13.wav"
-enter_up = "audio_alt_2/15.wav"
+enter = "audio_alt_2/07.wav"
+enter_up = "audio_alt_2/12.wav"
